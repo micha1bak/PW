@@ -1,11 +1,18 @@
-import java.lang.Math;
-import java.util.function.DoubleToLongFunction;
-
 public class Test {
     public static void main(String[] args) {
-        for (int i = 0; i < 10; i++) {
-            long num = (long) Math.random();
-            System.out.println(num + " " + Math.random());
+        Thread[] tab =  new Thread[10];
+
+        for (int i = 0; i < tab.length; i++) {
+            tab[i] = new Thread(new Watek("" + i));
+            tab[i].start();
         }
+
+        for (Thread thread : tab) {
+            try {
+                thread.join();
+            } catch (InterruptedException e) {}
+        }
+
+        System.out.println("Koniec");
     }
 }
