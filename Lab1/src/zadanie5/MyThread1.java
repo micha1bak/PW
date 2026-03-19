@@ -1,3 +1,5 @@
+package zadanie5;
+
 public class MyThread1 extends Thread {
     public MyThread1(String name) {
         super(name);
