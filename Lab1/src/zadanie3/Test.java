@@ -1,3 +1,5 @@
+package zadanie3;
+
 public class Test {
     public static void main(String[] args) {
         Thread[] tab = new Thread[10];
