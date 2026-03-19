@@ -1,3 +1,5 @@
+package zadanie6;
+
 public class Licznik {
     private long atr = 0;
 

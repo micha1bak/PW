@@ -1,3 +1,5 @@
+package zadanie6;
+
 public class Watek extends Thread {
     private Licznik licznik;
 
