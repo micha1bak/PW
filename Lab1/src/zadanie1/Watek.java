@@ -1,14 +1,14 @@
+package zadanie1;
+
 public class Watek extends Thread {
 
-    private String _name;
-
     public Watek(String name) {
-        _name = name;
+        super(name);
     }
 
     public void run() {
         for (int i = 0; i < 10; i++) {
-            System.out.println("Pozdrowienia z wątku " + _name + " " + i);
+            System.out.println("Pozdrowienia z wątku " + getName() + " " + i);
             long sleepTime = (long) (Math.random() * 100 + 100);
             try {
                 sleep(sleepTime);
