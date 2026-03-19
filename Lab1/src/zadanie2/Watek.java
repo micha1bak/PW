@@ -1,3 +1,5 @@
+package zadanie2;
+
 public class Watek implements Runnable {
 
     private String _name;
