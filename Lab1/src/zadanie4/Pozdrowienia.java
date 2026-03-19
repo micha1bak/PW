@@ -1,3 +1,5 @@
+package zadanie4;
+
 public class Pozdrowienia {
     public void pozdrowienia1() {
         for (int i = 0; i < 10; i++) {
