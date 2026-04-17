@@ -28,6 +28,7 @@ public class Test {
                 try {
                     sleepRandom(a, b);
                     protect.acquire();
+                    System.out.println(">>> [ "+Thread.currentThread().getName()+", "+repetitionCounter+" ] :: [ licz_czyt="+cc+", licz_czyt_pocz="+cp+", licz_pis="+pc+", licz_pis_pocz="+pp+" ]");
                     if ((pp + pc) == 0) {
                         cc++;
                         read.release();
@@ -36,9 +37,6 @@ public class Test {
                     }
                     protect.release();
                     read.acquire();
-                    protect.acquire();
-                    System.out.println(">>> [ "+Thread.currentThread().getName()+", "+repetitionCounter+" ] :: [ licz_czyt="+cc+", licz_czyt_pocz="+cp+", licz_pis="+pc+", licz_pis_pocz="+pp+" ]");
-                    protect.release();
                     sleepRandom(c, d);
                     protect.acquire();
                     System.out.println("<<< [ "+Thread.currentThread().getName()+", "+repetitionCounter+" ] :: [ licz_czyt="+cc+", licz_czyt_pocz="+cp+", licz_pis="+pc+", licz_pis_pocz="+pp+" ]");
@@ -109,7 +107,7 @@ public class Test {
         }
 
         try {
-            Thread.sleep(10000);
+            Thread.sleep(5000);
             for (Thread t : readers) {
                 t.interrupt();
             }

@@ -113,7 +113,7 @@ public class Test {
         }
 
         try {
-            Thread.sleep(10000);
+            Thread.sleep(5000);
             for (Thread t : readers) {
                 t.interrupt();
             }
