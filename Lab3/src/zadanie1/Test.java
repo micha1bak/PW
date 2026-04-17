@@ -7,8 +7,9 @@ public class Test {
     public static void main(String[] args) {
         int m = 4;
         int n = 5;
-        int repetitions = 50;
-        int bufSize = 3;
+        int producerRepetitions = 50;
+        int consumerRepetitions = producerRepetitions * m / n;
+        int bufSize = 5;
         AtomicInteger bufWriteIndex = new AtomicInteger(0);
         AtomicInteger bufReadIndex = new AtomicInteger(0);
         String[] buf = new String[bufSize];
@@ -19,10 +20,10 @@ public class Test {
         Producent[] p = new Producent[m];
         Konsument[] k = new Konsument[n];
         for (int i = 0; i < m; i++){
-            p[i] = new Producent("P-" + i, buf, full, empty, write, repetitions, bufWriteIndex, bufSize);
+            p[i] = new Producent("P-" + i, buf, full, empty, write, producerRepetitions, bufWriteIndex, bufSize);
         }
         for (int i = 0; i < n; i++){
-            k[i] = new Konsument("K-" + i, buf, full, empty, read, repetitions, bufReadIndex, bufSize);
+            k[i] = new Konsument("K-" + i, buf, full, empty, read, consumerRepetitions, bufReadIndex, bufSize);
         }
         for (int i = 0; i < m; i++){
             p[i].start();

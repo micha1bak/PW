@@ -35,11 +35,11 @@ public class Producent extends Thread{
         }
     }
     private String formatedData(int repNumber, int bufPosition, int product) {
-        String data = "[ ";
+        String data = "Dana=[ ";
         data += Thread.currentThread().getName() + ", ";
-        data += "repNum=" + repNumber + ", ";
-        data += "bufPos=" + bufPosition + ", ";
-        data += "val=" + product + " ]";
+        data += repNumber + ", ";
+        data += bufPosition + ", ";
+        data += product + " ]";
         return data;
     }
     private int incrementBufIndex(int bufIndex) {

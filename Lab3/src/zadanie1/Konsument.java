@@ -26,11 +26,12 @@ public class Konsument extends Thread {
     }
 
     private void consume(int repNumber, int bufPosition, String data) {
+        sleepFromAtoB(c, d);
         String message = "[ ";
         message += Thread.currentThread().getName() + ", ";
-        message += "repNum=" + repNumber + ", ";
-        message += "bufPos=" + bufPosition + " ]";
-        message += " :: Dana=" + data;
+        message += repNumber + ", ";
+        message += bufPosition + " ] :: ";
+        message += data;
         System.out.println(message);
     }
 
@@ -51,7 +52,6 @@ public class Konsument extends Thread {
             String data = "";
             int currentIndex;
             try {
-                sleepFromAtoB(c, d);
                 full.acquire();
                 read.acquire();
                 currentIndex = bufReadIndex.get();
