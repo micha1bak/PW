@@ -4,6 +4,7 @@
     <project name="Lab1" path="$PROJECT_DIR$/../Lab1" />
     <project name="Lab2" path="$PROJECT_DIR$/../Lab2" />
     <project name="Lab3" path="$PROJECT_DIR$/../Lab3" />
+    <project name="Lab4" path="$PROJECT_DIR$/../Lab4" />
     <option name="workspace" value="true" />
   </component>
 </project>
