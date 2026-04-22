@@ -28,7 +28,6 @@ class Producent implements Runnable {
                 System.out.println("[" + id + ", " + i + "] => (" + wartosc + ", " + pozycja + ")");
             }
         } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
         }
     }
 }

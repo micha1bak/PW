@@ -31,7 +31,7 @@ public class Test {
         }
 
         try {
-            Thread.sleep(6000);
+            Thread.sleep(5000);
         } catch (InterruptedException e) {}
 
         for (Thread t : watki) {

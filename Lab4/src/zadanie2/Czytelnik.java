@@ -29,7 +29,6 @@ class Czytelnik implements Runnable {
                 czytelnia.KON_CZYTANIA(id, i);
             }
         } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
         }
     }
 }

@@ -32,8 +32,6 @@ class Klient implements Runnable {
                     }
                 }
             }
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
+        } catch (InterruptedException e) {}
     }
 }

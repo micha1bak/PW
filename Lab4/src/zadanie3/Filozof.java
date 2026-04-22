@@ -31,7 +31,7 @@ class Filozof implements Runnable {
                 widelce.ODLOZ(nr, id, i);
             }
         } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
+
         }
     }
 }

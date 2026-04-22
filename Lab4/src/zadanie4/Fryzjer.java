@@ -27,7 +27,7 @@ class Fryzjer implements Runnable {
                 zaklad.ZAKONCZENIE_USLUGI(id, i);
             }
         } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
+
         }
     }
 }

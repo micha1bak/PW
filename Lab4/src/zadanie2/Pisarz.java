@@ -29,7 +29,6 @@ class Pisarz implements Runnable {
                 czytelnia.KON_PISANIA(id, i);
             }
         } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
         }
     }
 }
