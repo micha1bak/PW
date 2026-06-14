@@ -1,16 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
 
-<?import javafx.scene.control.Button?>
-<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.zaklad_fryzjerski.HelloController">
-    <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
-    </padding>
+<HBox prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.zaklad_fryzjerski.HelloController">
+    <children>
+        <VBox spacing="15.0" style="-fx-background-color: #f4f4f4; -fx-border-color: #cccccc; -fx-border-width: 0 1 0 0;" prefWidth="300.0">
+            <children>
+                <Label text="Konfiguracja Systemu">
+                    <font>
+                        <Font name="System Bold" size="16.0" />
+                    </font>
+                </Label>
+                
+                <VBox spacing="8.0">
+                    <children>
+                        <Label text="Liczba rodzajów usług (N):" />
+                        <TextField fx:id="nField" text="3" onKeyReleased="#onNFieldChanged" />
+                        
+                        <Label text="Liczba wszystkich fryzjerów (P):" />
+                        <TextField fx:id="pTotalField" text="3" />
 
-    <Label fx:id="welcomeText"/>
-    <Button text="Hello!" onAction="#onHelloButtonClick"/>
-</VBox>
+                        <Label text="Liczba foteli (L):" />
+                        <TextField fx:id="lField" text="2" />
+                        
+                        <Label text="Pojemność poczekalni:" />
+                        <TextField fx:id="capacityField" text="5" />
+                    </children>
+                </VBox>
+
+                <Separator prefWidth="200.0" />
+                
+                <ScrollPane fitToWidth="true" style="-fx-background-color: transparent;" VBox.vgrow="ALWAYS">
+                    <content>
+                        <VBox fx:id="specializationContainer" spacing="10.0">
+
+                        </VBox>
+                    </content>
+                </ScrollPane>
+
+                <Separator prefWidth="200.0" />
+                <Button fx:id="startButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onStartSimulation" prefHeight="40.0" styleClass="btn, btn-success" text="URUCHOM" />
+                <Button fx:id="stopButton" disable="true" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onStopSimulation" prefHeight="40.0" styleClass="btn, btn-danger" text="ZATRZYMAJ" />
+            </children>
+            <padding>
+                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+            </padding>
+        </VBox>
+
+        <VBox spacing="10.0" HBox.hgrow="ALWAYS">
+            <padding>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            </padding>
+            <children>
+                <Label text="Wizualizacja Symulacji">
+                    <font>
+                        <Font name="System Bold" size="16.0" />
+                    </font>
+                </Label>
+                <Pane fx:id="simulationPane" VBox.vgrow="ALWAYS" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;">
+                </Pane>
+            </children>
+        </VBox>
+    </children>
+</HBox>
