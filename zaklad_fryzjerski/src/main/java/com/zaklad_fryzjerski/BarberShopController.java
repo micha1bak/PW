@@ -19,7 +19,7 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
-public class HelloController implements SimulationObserver {
+public class BarberShopController implements SimulationObserver {
 
     @FXML private TextField nField, pTotalField, lField, capacityField;
     @FXML private Slider genSpeedSlider, serviceDurationSlider;
