@@ -15,6 +15,9 @@ import javafx.scene.shape.Rectangle;
 import javafx.animation.TranslateTransition;
 import javafx.util.Duration;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
@@ -41,7 +44,36 @@ public class HelloController implements SimulationObserver {
 
     @FXML
     public void initialize() {
+        loadConfigFromFile();
+    }
+
+    private void loadConfigFromFile() {
+        Map<String, String> config = new HashMap<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader("config.txt"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split("=");
+                if (parts.length == 2) {
+                    config.put(parts[0].trim(), parts[1].trim());
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Nie znaleziono pliku config.txt, używam wartości domyślnych.");
+        }
+
+        if (config.containsKey("N")) nField.setText(config.get("N"));
+        if (config.containsKey("P_TOTAL")) pTotalField.setText(config.get("P_TOTAL"));
+        if (config.containsKey("L")) lField.setText(config.get("L"));
+        if (config.containsKey("CAPACITY")) capacityField.setText(config.get("CAPACITY"));
+
         updateSpecializationFields();
+
+        if (config.containsKey("SPECS")) {
+            String[] specValues = config.get("SPECS").split(",");
+            for (int i = 0; i < Math.min(specValues.length, pFields.size()); i++) {
+                pFields.get(i).setText(specValues[i].trim());
+            }
+        }
     }
 
     @FXML
@@ -107,7 +139,7 @@ public class HelloController implements SimulationObserver {
         circle.setStrokeWidth(2.5);
         Label label = new Label(labelText);
         label.setStyle("-fx-font-weight: bold; -fx-font-size: 13px; -fx-text-fill: black;");
-        label.setLayoutX(5); label.setLayoutY(14);
+        label.setLayoutX(-2); label.setLayoutY(-2);
         pane.getChildren().addAll(circle, label);
         return pane;
     }
@@ -168,7 +200,7 @@ public class HelloController implements SimulationObserver {
         Platform.runLater(() -> {
             Pane cCircle = createEntityCircle("P" + client.getRequiredServiceId(), Color.web("#e8f5e9"), Color.web("#388e3c"));
             cCircle.setLayoutX(50);
-            cCircle.setLayoutY(WAITING_ROOM_Y + 10);
+            cCircle.setLayoutY(WAITING_ROOM_Y + 25);
             visualEntities.put(client.getClientId(), cCircle);
             simulationPane.getChildren().add(cCircle);
         });
@@ -179,7 +211,7 @@ public class HelloController implements SimulationObserver {
         Platform.runLater(() -> {
             Pane cCircle = visualEntities.get(client.getClientId());
             if (cCircle != null) {
-                moveEntity(cCircle, WAITING_ROOM_X + 35, WAITING_ROOM_Y + 30 + (position * ENTITY_SPACING));
+                moveEntity(cCircle, WAITING_ROOM_X + 40, WAITING_ROOM_Y + 30 + (position * ENTITY_SPACING));
             }
         });
     }
@@ -199,9 +231,9 @@ public class HelloController implements SimulationObserver {
         Platform.runLater(() -> {
             Pane bCircle = visualEntities.get(1000 + barber.getBarberId() - 1);
             Pane cCircle = visualEntities.get(client.getClientId());
-            double targetY = CHAIRS_Y + (chairIndex * CHAIR_SPACING) + 8;
+            double targetY = CHAIRS_Y + (chairIndex * CHAIR_SPACING) + 30;
             if (bCircle != null) moveEntity(bCircle, CHAIRS_X - 60, targetY);
-            if (cCircle != null) moveEntity(cCircle, CHAIRS_X + 18, targetY);
+            if (cCircle != null) moveEntity(cCircle, CHAIRS_X, targetY);
         });
     }
 
