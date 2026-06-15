@@ -3,10 +3,7 @@ package com.zaklad_fryzjerski;
 import com.zaklad_fryzjerski.model.*;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -25,6 +22,8 @@ import java.util.stream.Collectors;
 public class HelloController implements SimulationObserver {
 
     @FXML private TextField nField, pTotalField, lField, capacityField;
+    @FXML private Slider genSpeedSlider, serviceDurationSlider;
+    @FXML private Label genSpeedLabel, serviceDurationLabel;
     @FXML private VBox specializationContainer;
     @FXML private Button startButton, stopButton;
     @FXML private Pane simulationPane;
@@ -45,6 +44,22 @@ public class HelloController implements SimulationObserver {
     @FXML
     public void initialize() {
         loadConfigFromFile();
+        setupSliderListeners();
+    }
+
+    private void setupSliderListeners() {
+        genSpeedSlider.valueProperty().addListener((obs, oldVal, newVal) -> {
+            genSpeedLabel.setText(newVal.intValue() + " ms");
+            if (simulationManager != null) {
+                simulationManager.setGenerationDelay(newVal.intValue());
+            }
+        });
+        serviceDurationSlider.valueProperty().addListener((obs, oldVal, newVal) -> {
+            serviceDurationLabel.setText(newVal.intValue() + " ms");
+            if (simulationManager != null) {
+                simulationManager.setServiceDuration(newVal.intValue());
+            }
+        });
     }
 
     private void loadConfigFromFile() {
@@ -133,21 +148,20 @@ public class HelloController implements SimulationObserver {
     }
 
     private Pane createEntityCircle(String labelText, Color color, Color strokeColor) {
-        Pane pane = new Pane();
         Circle circle = new Circle(22, color);
         circle.setStroke(strokeColor);
         circle.setStrokeWidth(2.5);
         Label label = new Label(labelText);
         label.setStyle("-fx-font-weight: bold; -fx-font-size: 13px; -fx-text-fill: black;");
-        label.setLayoutX(-2); label.setLayoutY(-2);
-        pane.getChildren().addAll(circle, label);
-        return pane;
+        javafx.scene.layout.StackPane stack = new javafx.scene.layout.StackPane(circle, label);
+        stack.setLayoutX(-22);
+        stack.setLayoutY(-22);
+        return new Pane(stack);
     }
 
     @FXML
     protected void onStartSimulation() {
         if (!validateInputs()) return;
-
         int n = Integer.parseInt(nField.getText());
         int pTotal = Integer.parseInt(pTotalField.getText());
         int l = Integer.parseInt(lField.getText());
@@ -170,6 +184,8 @@ public class HelloController implements SimulationObserver {
 
         simulationManager = new SimulationManager(n, pTotal, l, capacity, barberSpecs);
         simulationManager.setObserver(this);
+        simulationManager.setGenerationDelay((int) genSpeedSlider.getValue());
+        simulationManager.setServiceDuration((int) serviceDurationSlider.getValue());
         
         for (int i = 0; i < pTotal; i++) {
             String labelText = barberSpecs.get(i).stream()
@@ -200,7 +216,7 @@ public class HelloController implements SimulationObserver {
         Platform.runLater(() -> {
             Pane cCircle = createEntityCircle("P" + client.getRequiredServiceId(), Color.web("#e8f5e9"), Color.web("#388e3c"));
             cCircle.setLayoutX(50);
-            cCircle.setLayoutY(WAITING_ROOM_Y + 25);
+            cCircle.setLayoutY(WAITING_ROOM_Y + 10);
             visualEntities.put(client.getClientId(), cCircle);
             simulationPane.getChildren().add(cCircle);
         });
@@ -211,7 +227,7 @@ public class HelloController implements SimulationObserver {
         Platform.runLater(() -> {
             Pane cCircle = visualEntities.get(client.getClientId());
             if (cCircle != null) {
-                moveEntity(cCircle, WAITING_ROOM_X + 40, WAITING_ROOM_Y + 30 + (position * ENTITY_SPACING));
+                moveEntity(cCircle, WAITING_ROOM_X + 40, WAITING_ROOM_Y + 35 + (position * ENTITY_SPACING));
             }
         });
     }
@@ -231,9 +247,10 @@ public class HelloController implements SimulationObserver {
         Platform.runLater(() -> {
             Pane bCircle = visualEntities.get(1000 + barber.getBarberId() - 1);
             Pane cCircle = visualEntities.get(client.getClientId());
+
             double targetY = CHAIRS_Y + (chairIndex * CHAIR_SPACING) + 30;
             if (bCircle != null) moveEntity(bCircle, CHAIRS_X - 60, targetY);
-            if (cCircle != null) moveEntity(cCircle, CHAIRS_X, targetY);
+            if (cCircle != null) moveEntity(cCircle, CHAIRS_X - 1, targetY);
         });
     }
 
@@ -274,7 +291,6 @@ public class HelloController implements SimulationObserver {
     }
 
     private void moveEntity(Pane entity, double x, double y) {
-        // Zatrzymaj poprzednią animację dla tego obiektu
         if (activeTransitions.containsKey(entity)) {
             activeTransitions.get(entity).stop();
         }

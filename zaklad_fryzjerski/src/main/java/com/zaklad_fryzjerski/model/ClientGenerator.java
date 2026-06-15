@@ -8,6 +8,7 @@ public class ClientGenerator extends Thread {
     private boolean running = true;
     private final Random random = new Random();
     private int nextClientId = 1;
+    private volatile int generationDelay = 1000;
 
     public ClientGenerator(BarberShop shop, int numberOfServiceTypes) {
         this.shop = shop;
@@ -15,11 +16,18 @@ public class ClientGenerator extends Thread {
         this.setName("ClientGenerator");
     }
 
+    public void setGenerationDelay(int ms) {
+        this.generationDelay = ms;
+    }
+
     @Override
     public void run() {
         try {
             while (running) {
-                Thread.sleep(500 + random.nextInt(1000));   // 0.5 - 1 [s]
+                // ±20% losowości
+                int currentDelay = (int) (generationDelay * (0.8 + random.nextDouble() * 0.4));
+                Thread.sleep(Math.max(100, currentDelay));
+                
                 int serviceId = 1 + random.nextInt(numberOfServiceTypes);
                 Client client = new Client(nextClientId++, serviceId, shop);
                 client.start();

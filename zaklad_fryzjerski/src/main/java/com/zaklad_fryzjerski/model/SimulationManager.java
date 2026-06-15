@@ -27,6 +27,16 @@ public class SimulationManager {
         this.shop.setObserver(observer);
     }
 
+    public void setGenerationDelay(int ms) {
+        generator.setGenerationDelay(ms);
+    }
+
+    public void setServiceDuration(int ms) {
+        for (Barber b : barbers) {
+            b.setServiceDuration(ms);
+        }
+    }
+
     public void start() {
         for (Barber b : barbers) b.start();
         generator.start();

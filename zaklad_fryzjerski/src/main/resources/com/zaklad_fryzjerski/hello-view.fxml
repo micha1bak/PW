@@ -15,28 +15,35 @@
                     </font>
                 </Label>
                 
-                <VBox spacing="8.0">
-                    <children>
-                        <Label text="Liczba rodzajów usług (N):" />
-                        <TextField fx:id="nField" text="3" onKeyReleased="#onNFieldChanged" />
-                        
-                        <Label text="Liczba wszystkich fryzjerów (P):" />
-                        <TextField fx:id="pTotalField" text="3" />
-
-                        <Label text="Liczba foteli (L):" />
-                        <TextField fx:id="lField" text="2" />
-                        
-                        <Label text="Pojemność poczekalni:" />
-                        <TextField fx:id="capacityField" text="5" />
-                    </children>
-                </VBox>
-
-                <Separator prefWidth="200.0" />
-                
                 <ScrollPane fitToWidth="true" style="-fx-background-color: transparent;" VBox.vgrow="ALWAYS">
                     <content>
-                        <VBox fx:id="specializationContainer" spacing="10.0">
+                        <VBox spacing="10.0">
+                            <children>
+                                <Label text="Liczba rodzajów usług (N):" />
+                                <TextField fx:id="nField" text="3" onKeyReleased="#onNFieldChanged" />
+                                
+                                <Label text="Liczba wszystkich fryzjerów (P):" />
+                                <TextField fx:id="pTotalField" text="3" />
 
+                                <Label text="Liczba foteli (L):" />
+                                <TextField fx:id="lField" text="2" />
+                                
+                                <Label text="Pojemność poczekalni:" />
+                                <TextField fx:id="capacityField" text="5" />
+
+                                <Separator prefWidth="200.0" />
+                                <Label text="Szybkość generacji (ms):" />
+                                <Slider fx:id="genSpeedSlider" min="200" max="5000" value="1000" />
+                                <Label fx:id="genSpeedLabel" text="1000 ms" />
+
+                                <Separator prefWidth="200.0" />
+                                <Label text="Czas usługi (ms):" />
+                                <Slider fx:id="serviceDurationSlider" min="1000" max="10000" value="4000" />
+                                <Label fx:id="serviceDurationLabel" text="4000 ms" />
+
+                                <Separator prefWidth="200.0" />
+                                <VBox fx:id="specializationContainer" spacing="10.0" />
+                            </children>
                         </VBox>
                     </content>
                 </ScrollPane>

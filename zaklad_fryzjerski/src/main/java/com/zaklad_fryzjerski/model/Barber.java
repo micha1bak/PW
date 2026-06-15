@@ -9,6 +9,7 @@ public class Barber extends Thread {
     private final BarberShop shop;
     private boolean running = true;
     private final Random random = new Random();
+    private volatile int serviceDuration = 4000;
 
     public Barber(int id, Set<Integer> specializations, BarberShop shop) {
         this.barberId = id;
@@ -16,15 +17,24 @@ public class Barber extends Thread {
         this.shop = shop;
     }
 
+    public void setServiceDuration(int ms) {
+        this.serviceDuration = ms;
+    }
+
     @Override
     public void run() {
         try {
             while (running) {
+                // 1. Czekaj na parę: odpowiedni klient i wolny fotel
                 BarberShop.ClientAndChair pair = shop.getNextClientAndChairForBarber(this);
                 Client client = pair.client();
                 int chairIndex = pair.chairIndex();
-                int serviceTime = 3000 + random.nextInt(4000);
-                Thread.sleep(serviceTime);
+                
+                // 2. Obsługa (używamy dynamicznego czasu ±20%)
+                int currentDuration = (int) (serviceDuration * (0.8 + random.nextDouble() * 0.4));
+                Thread.sleep(Math.max(500, currentDuration));
+                
+                // 3. Koniec obsługi w salonie (powiadomienie klienta i zwolnienie fotela)
                 shop.finishService(this, client, chairIndex);
             }
         } catch (InterruptedException e) {
