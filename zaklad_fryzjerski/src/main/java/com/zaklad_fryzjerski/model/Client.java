@@ -1,10 +1,8 @@
 package com.zaklad_fryzjerski.model;
-
 public class Client extends Thread {
     private final int clientId;
     private final int requiredServiceId;
     private final BarberShop shop;
-    private boolean served = false;
 
     public Client(int id, int serviceId, BarberShop shop) {
         this.clientId = id;
@@ -15,24 +13,13 @@ public class Client extends Thread {
 
     @Override
     public void run() {
-        if (shop.enterWaitingRoom(this)) {
-            synchronized (this) {
-                while (!served) {
-                    try {
-                        wait();
-                    } catch (InterruptedException e) {
-                        Thread.currentThread().interrupt();
-                        break;
-                    }
-                }
+        try {
+            if (shop.enterWaitingRoom(this)) {
+                shop.waitForService(this);
             }
-            System.out.println("Klient " + clientId + " został obsłużony i wychodzi.");
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
         }
-    }
-
-    public synchronized void setServed() {
-        this.served = true;
-        this.notifyAll();
     }
 
     public int getClientId() { return clientId; }

@@ -25,7 +25,6 @@ public class SimulationManager {
 
     public void setObserver(SimulationObserver observer) {
         this.shop.setObserver(observer);
-        for (Barber b : barbers) b.setObserver(observer);
     }
 
     public void start() {
