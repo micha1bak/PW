@@ -19,15 +19,12 @@ public class ClientGenerator extends Thread {
     public void run() {
         try {
             while (running) {
-                // Losowy czas do przybycia kolejnego klienta (np. 0.5-1.0 sekundy)
-                Thread.sleep(500 + random.nextInt(1000));
-                
+                Thread.sleep(500 + random.nextInt(1000));   // 0.5 - 1 [s]
                 int serviceId = 1 + random.nextInt(numberOfServiceTypes);
                 Client client = new Client(nextClientId++, serviceId, shop);
                 client.start();
             }
         } catch (InterruptedException e) {
-            System.out.println("Generator klientów zatrzymany.");
             Thread.currentThread().interrupt();
         }
     }
